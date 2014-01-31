@@ -42,6 +42,8 @@ typedef NS_ENUM(NSUInteger, JSBadgeViewAlignment)
 #pragma mark - Customization
 
 @property (nonatomic, assign) JSBadgeViewAlignment badgeAlignment UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat badgeHorizontalAlignmentPercentageDivisor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat badgeVerticalAlignmentPercentageDivisor UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, strong) UIColor *badgeTextColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, assign) CGSize badgeTextShadowOffset UI_APPEARANCE_SELECTOR;
@@ -91,5 +93,10 @@ typedef NS_ENUM(NSUInteger, JSBadgeViewAlignment)
  * Optionally init using this method to have the badge automatically added to another view.
  */
 - (id)initWithParentView:(UIView *)parentView alignment:(JSBadgeViewAlignment)alignment;
+
+/**
+ * Optionally init using this method to have the badge automatically added to another view with Percentage.
+ */
+- (id)initWithParentView:(UIView *)parentView alignment:(JSBadgeViewAlignment)alignment horizontalAlignmentDivisorPercentage:(CGFloat)badgeHorizontalAlignmentPercentageDivisor verticalAlignmentDivisorPercentage:(CGFloat)badgeVerticalAlignmentPercentageDivisor;
 
 @end

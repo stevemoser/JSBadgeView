@@ -131,6 +131,16 @@ static BOOL JSBadgeViewIsUIKitFlatMode(void)
     return self;
 }
 
+- (id)initWithParentView:(UIView *)parentView alignment:(JSBadgeViewAlignment)alignment horizontalAlignmentDivisorPercentage:(CGFloat)badgeHorizontalAlignmentPercentageDivisor verticalAlignmentDivisorPercentage:(CGFloat)badgeVerticalAlignmentPercentageDivisor
+{
+    self = [self initWithParentView:parentView alignment:alignment];
+    if (self) {
+        self.badgeHorizontalAlignmentPercentageDivisor = badgeHorizontalAlignmentPercentageDivisor;
+        self.badgeVerticalAlignmentPercentageDivisor = badgeVerticalAlignmentPercentageDivisor;
+    }
+    return self;
+}
+
 #pragma mark - Layout
 
 - (CGFloat)marginToDrawInside
@@ -157,42 +167,50 @@ static BOOL JSBadgeViewIsUIKitFlatMode(void)
     newFrame.size.width = viewWidth;
     newFrame.size.height = viewHeight;
     
+    if (self.badgeHorizontalAlignmentPercentageDivisor == 0.0f) {
+        self.badgeVerticalAlignmentPercentageDivisor = 2.0f;
+    }
+    
+    if (self.badgeVerticalAlignmentPercentageDivisor == 0.0f) {
+        self.badgeVerticalAlignmentPercentageDivisor = 2.0f;
+    }
+    
     switch (self.badgeAlignment) {
         case JSBadgeViewAlignmentTopLeft:
-            newFrame.origin.x = -viewWidth / 2.0f;
-            newFrame.origin.y = -viewHeight / 2.0f;
+            newFrame.origin.x = -viewWidth / self.badgeHorizontalAlignmentPercentageDivisor;
+            newFrame.origin.y = -viewHeight / self.badgeVerticalAlignmentPercentageDivisor;
             break;
         case JSBadgeViewAlignmentTopRight:
-            newFrame.origin.x = superviewWidth - (viewWidth / 2.0f);
-            newFrame.origin.y = -viewHeight / 2.0f;
+            newFrame.origin.x = superviewWidth - (viewWidth / self.badgeHorizontalAlignmentPercentageDivisor);
+            newFrame.origin.y = -viewHeight / self.badgeVerticalAlignmentPercentageDivisor;
             break;
         case JSBadgeViewAlignmentTopCenter:
-            newFrame.origin.x = (superviewWidth - viewWidth) / 2.0f;
-            newFrame.origin.y = -viewHeight / 2.0f;
+            newFrame.origin.x = (superviewWidth - viewWidth) / self.badgeHorizontalAlignmentPercentageDivisor;
+            newFrame.origin.y = -viewHeight / self.badgeVerticalAlignmentPercentageDivisor;
             break;
         case JSBadgeViewAlignmentCenterLeft:
-            newFrame.origin.x = -viewWidth / 2.0f;
-            newFrame.origin.y = (superviewHeight - viewHeight) / 2.0f;
+            newFrame.origin.x = -viewWidth / self.badgeHorizontalAlignmentPercentageDivisor;
+            newFrame.origin.y = (superviewHeight - viewHeight) / self.badgeVerticalAlignmentPercentageDivisor;
             break;
         case JSBadgeViewAlignmentCenterRight:
-            newFrame.origin.x = superviewWidth - (viewWidth / 2.0f);
-            newFrame.origin.y = (superviewHeight - viewHeight) / 2.0f;
+            newFrame.origin.x = superviewWidth - (viewWidth / self.badgeHorizontalAlignmentPercentageDivisor);
+            newFrame.origin.y = (superviewHeight - viewHeight) / self.badgeVerticalAlignmentPercentageDivisor;
             break;
         case JSBadgeViewAlignmentBottomLeft:
-            newFrame.origin.x = -viewWidth / 2.0f;
-            newFrame.origin.y = superviewHeight - (viewHeight / 2.0f);
+            newFrame.origin.x = -viewWidth / self.badgeHorizontalAlignmentPercentageDivisor;
+            newFrame.origin.y = superviewHeight - (viewHeight / self.badgeVerticalAlignmentPercentageDivisor);
             break;
         case JSBadgeViewAlignmentBottomRight:
-            newFrame.origin.x = superviewWidth - (viewWidth / 2.0f);
-            newFrame.origin.y = superviewHeight - (viewHeight / 2.0f);
+            newFrame.origin.x = superviewWidth - (viewWidth / self.badgeHorizontalAlignmentPercentageDivisor);
+            newFrame.origin.y = superviewHeight - (viewHeight / self.badgeVerticalAlignmentPercentageDivisor);
             break;
         case JSBadgeViewAlignmentBottomCenter:
-            newFrame.origin.x = (superviewWidth - viewWidth) / 2.0f;
-            newFrame.origin.y = superviewHeight - (viewHeight / 2.0f);
+            newFrame.origin.x = (superviewWidth - viewWidth) / self.badgeHorizontalAlignmentPercentageDivisor;
+            newFrame.origin.y = superviewHeight - (viewHeight / self.badgeVerticalAlignmentPercentageDivisor);
             break;
         case JSBadgeViewAlignmentCenter:
-            newFrame.origin.x = (superviewWidth - viewWidth) / 2.0f;
-            newFrame.origin.y = (superviewHeight - viewHeight) / 2.0f;
+            newFrame.origin.x = (superviewWidth - viewWidth) / self.badgeHorizontalAlignmentPercentageDivisor;
+            newFrame.origin.y = (superviewHeight - viewHeight) / self.badgeVerticalAlignmentPercentageDivisor;
             break;
         default:
             NSAssert(NO, @"Unimplemented JSBadgeAligment type %lul", (unsigned long)self.badgeAlignment);
